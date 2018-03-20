@@ -24,6 +24,7 @@
     "redux": "3.7.2"
   },
   "devDependencies": {
+    "deep-freeze": "0.0.1",
     "husky": "0.14.3",
     "lint-staged": "6.0.0",
     "prettier": "1.10.2"

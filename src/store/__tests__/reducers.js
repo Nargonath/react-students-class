@@ -1,16 +1,102 @@
-import { student, students } from './reducers';
+import deepFreeze from 'deep-freeze';
 
-test('should return current state when no action given');
+import { student, students } from '../reducers';
+import { addStudent, updateStudent, deleteStudent } from '../actionCreators';
 
-describe('add student', () => {
-  test('should add a new student to the list');
-  test('should create a new ID for the added student');
+describe('students reducer', () => {
+  test('should return current state when no action given', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen', age: 12 }];
+    const action = null;
+
+    deepFreeze(stateBefore);
+
+    expect(students(stateBefore, action)).toBe(stateBefore);
+  });
+
+  test('should return current state when unknown action given', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen', age: 12 }];
+    const action = { type: 'unknown' };
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toBe(stateBefore);
+  });
+
+  test('should add a new student to the list', () => {
+    const stateBefore = [];
+    const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
+    const action = addStudent(studentData);
+    const stateAfter = [studentData];
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toMatchObject(expect.arrayContaining(stateAfter));
+  });
+
+  test('should delete a student when it exists', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen' }];
+    const action = deleteStudent(1);
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toHaveLength(0);
+  });
 });
 
-describe('update student', () => {
-  test('should update a given student');
-});
+describe('student reducer', () => {
+  test('should return current state when no action given', () => {
+    const stateBefore = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen', age: 12 };
+    const action = null;
 
-describe('delete student', () => {
-  test('should delete a student matching an ID');
+    deepFreeze(stateBefore);
+
+    expect(student(stateBefore, action)).toBe(stateBefore);
+  });
+
+  test('should return current state when unknown action given', () => {
+    const stateBefore = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen', age: 12 };
+    const action = { type: 'unknown' };
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(student(stateBefore, action)).toBe(stateBefore);
+  });
+
+  test('should add a new student', () => {
+    const stateBefore = {};
+    const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
+    const action = addStudent(studentData);
+    const stateAfter = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen' };
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(student(stateBefore, action)).toEqual(stateAfter);
+  });
+
+  test('should update given student when it exists', () => {
+    const stateBefore = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen' };
+    const action = updateStudent({ id: 1, firstname: 'Henri', lastname: 'Nielsen' });
+    const stateAfter = { id: 1, firstname: 'Henri', lastname: 'Nielsen' };
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(student(stateBefore, action)).toEqual(stateAfter);
+  });
+
+  test('should return current state when user does not exist', () => {
+    const stateBefore = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen' };
+    const action = updateStudent({ firstname: 'Henri', lastname: 'Nielsen' });
+    const stateAfter = { ...stateBefore };
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(student(stateBefore, action)).toEqual(stateAfter);
+  });
 });
