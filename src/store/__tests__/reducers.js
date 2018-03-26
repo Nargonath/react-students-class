@@ -27,7 +27,7 @@ describe('students reducer', () => {
     const stateBefore = [];
     const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
     const action = addStudent(studentData);
-    const stateAfter = [studentData];
+    const stateAfter = [{ ...studentData, id: expect.any(Number) }];
 
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -43,6 +43,39 @@ describe('students reducer', () => {
     deepFreeze(action);
 
     expect(students(stateBefore, action)).toHaveLength(0);
+  });
+
+  test('should return current state when delete a student that does not exist', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen' }];
+    const action = deleteStudent(2);
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toMatchObject(expect.arrayContaining(stateBefore));
+  });
+
+  test('should update student', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen' }];
+    const studentData = { id: 1, firstname: 'Henri', lastname: 'Nielsen' };
+    const action = updateStudent(studentData);
+    const stateAfter = [studentData];
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toMatchObject(expect.arrayContaining(stateAfter));
+  });
+
+  test('should return current state when update inexistant student', () => {
+    const stateBefore = [{ id: 1, firstname: 'Mikkel', lastname: 'Nielsen' }];
+    const studentData = { id: 2, firstname: 'Henri', lastname: 'Nielsen' };
+    const action = updateStudent(studentData);
+
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+
+    expect(students(stateBefore, action)).toMatchObject(expect.arrayContaining(stateBefore));
   });
 });
 
@@ -70,7 +103,7 @@ describe('student reducer', () => {
     const stateBefore = {};
     const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
     const action = addStudent(studentData);
-    const stateAfter = { id: 1, firstname: 'Mikkel', lastname: 'Nielsen' };
+    const stateAfter = { id: expect.any(Number), firstname: 'Mikkel', lastname: 'Nielsen' };
 
     deepFreeze(stateBefore);
     deepFreeze(action);
