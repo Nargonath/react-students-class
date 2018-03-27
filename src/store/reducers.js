@@ -1,7 +1,5 @@
 import { ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT } from './actions';
 
-let currentId = 0;
-
 export const students = (state = [], action) => {
   if (!action) {
     return state;
@@ -56,7 +54,7 @@ export const student = (state = {}, action) => {
 
   switch (action.type) {
     case ADD_STUDENT: {
-      nextState = { ...action.student, id: ++currentId };
+      nextState = { ...action.student };
       break;
     }
 

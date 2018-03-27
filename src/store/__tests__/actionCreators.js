@@ -5,7 +5,10 @@ test('addStudent returns object with proper type and value passed', () => {
   const initialStudent = { firstname: 'Mikkel', lastname: 'Nielsen' };
 
   expect(addStudent(initialStudent)).toMatchObject(
-    expect.objectContaining({ type: ADD_STUDENT, student: initialStudent }),
+    expect.objectContaining({
+      type: ADD_STUDENT,
+      student: expect.objectContaining({ ...initialStudent, id: expect.any(Number) }),
+    }),
   );
 });
 
