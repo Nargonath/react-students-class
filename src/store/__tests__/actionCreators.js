@@ -2,12 +2,12 @@ import { addStudent, deleteStudent, updateStudent } from '../actionCreators';
 import { ADD_STUDENT, DELETE_STUDENT, UPDATE_STUDENT } from '../actions';
 
 test('addStudent returns object with proper type and value passed', () => {
-  const initialStudent = { firstname: 'Mikkel', lastname: 'Nielsen' };
+  const initialStudent = { firstname: 'Mikkel', lastname: 'Nielsen', id: 1 };
 
   expect(addStudent(initialStudent)).toMatchObject(
     expect.objectContaining({
       type: ADD_STUDENT,
-      student: expect.objectContaining({ ...initialStudent, id: expect.any(Number) }),
+      student: expect.objectContaining({ ...initialStudent }),
     }),
   );
 });

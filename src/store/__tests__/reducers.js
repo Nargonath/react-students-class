@@ -25,9 +25,9 @@ describe('students reducer', () => {
 
   test('should add a new student to the list', () => {
     const stateBefore = [];
-    const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
+    const studentData = { firstname: 'Mikkel', id: 1, lastname: 'Nielsen' };
     const action = addStudent(studentData);
-    const stateAfter = [{ ...studentData, id: expect.any(Number) }];
+    const stateAfter = [{ ...studentData }];
 
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -101,9 +101,9 @@ describe('student reducer', () => {
 
   test('should add a new student', () => {
     const stateBefore = {};
-    const studentData = { firstname: 'Mikkel', lastname: 'Nielsen' };
+    const studentData = { firstname: 'Mikkel', id: 1, lastname: 'Nielsen' };
     const action = addStudent(studentData);
-    const stateAfter = { id: expect.any(Number), firstname: 'Mikkel', lastname: 'Nielsen' };
+    const stateAfter = { ...studentData };
 
     deepFreeze(stateBefore);
     deepFreeze(action);
