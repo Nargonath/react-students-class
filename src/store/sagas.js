@@ -2,12 +2,12 @@ import { put, takeEvery, all, call } from 'redux-saga/effects';
 
 import { Api } from './api';
 import { ADD_STUDENT_REQUESTED } from './actions';
-import { addStudent, addStudentError } from './actionCreators';
+import { addStudentSuccess, addStudentError } from './actionCreators';
 
 function* addStudentRequest(action) {
   try {
     const newStudent = yield call(Api.addStudent, action.studentData);
-    yield put(addStudent(newStudent));
+    yield put(addStudentSuccess(newStudent));
   } catch (error) {
     yield put(addStudentError(error));
   }
